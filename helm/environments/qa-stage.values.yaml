@@ -1,0 +1,36 @@
+replicaCount: 2
+
+image:
+  repository: your-registry/yms-appt-service
+  tag: "qa-stage"
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: yms-appt-service.qa-stage.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+env:
+  mongodbDb: yms_appt_service_qa_stage
+
+secret:
+  mongodbUri: "mongodb://USER:PASSWORD@mongo.qa-stage.svc.cluster.local:27017/?authSource=admin"
+  jwtSecret: "change-me-qa-stage"
+

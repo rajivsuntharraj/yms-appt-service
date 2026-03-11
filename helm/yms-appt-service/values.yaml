@@ -1,0 +1,58 @@
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: yms-appt-service
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: yms-appt-service.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+env:
+  mongodbDb: yms_appt_service
+  # If set, used directly as MONGODB_URI. Recommended to keep in secret.
+  mongodbUri: ""
+  jwtAlgorithm: HS256
+  jwtAudience: ""
+  jwtIssuer: ""
+
+secret:
+  # Set these per environment via values files or external secret managers.
+  mongodbUri: ""
+  jwtSecret: ""
+
+podAnnotations: {}
+

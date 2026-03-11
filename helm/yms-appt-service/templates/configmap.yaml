@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "yms-appt-service.fullname" . }}
+  labels:
+    {{- include "yms-appt-service.labels" . | nindent 4 }}
+data:
+  MONGODB_DB: {{ .Values.env.mongodbDb | quote }}
+  JWT_ALGORITHM: {{ .Values.env.jwtAlgorithm | quote }}
+  JWT_AUDIENCE: {{ .Values.env.jwtAudience | quote }}
+  JWT_ISSUER: {{ .Values.env.jwtIssuer | quote }}
+

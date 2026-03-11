@@ -1,0 +1,40 @@
+replicaCount: 3
+
+image:
+  repository: your-registry/yms-appt-service
+  tag: "prod"
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: yms-appt-service.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: yms-appt-service-tls
+      hosts:
+        - yms-appt-service.example.com
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 15
+  targetCPUUtilizationPercentage: 65
+
+resources:
+  requests:
+    cpu: 300m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1024Mi
+
+env:
+  mongodbDb: yms_appt_service
+
+secret:
+  mongodbUri: "mongodb://USER:PASSWORD@mongo.production.svc.cluster.local:27017/?authSource=admin"
+  jwtSecret: "change-me-production"
+

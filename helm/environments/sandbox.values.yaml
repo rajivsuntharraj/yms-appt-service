@@ -1,0 +1,30 @@
+replicaCount: 1
+
+image:
+  repository: your-registry/yms-appt-service
+  tag: "sandbox"
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: yms-appt-service.sandbox.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 300m
+    memory: 384Mi
+
+env:
+  mongodbDb: yms_appt_service_sandbox
+
+secret:
+  mongodbUri: "mongodb://USER:PASSWORD@mongo.sandbox.svc.cluster.local:27017/?authSource=admin"
+  jwtSecret: "change-me-sandbox"
+
